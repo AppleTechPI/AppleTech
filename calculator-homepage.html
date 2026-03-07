@@ -59,11 +59,11 @@
         let prejuizo_maca_ruim = qtd_perda_quali * prejuizo_desconto;
     
         // Calculando prejuizo total
-        let prejuizo_total = prejuizo_maca_ruim + venda_maca_ruim;
+        let prejuizo_total = prejuizo_descarte + prejuizo_maca_ruim;
         // Calculando lucro real que ele vai obter
-        let lucro_final = (venda_maca_ruim + (qtd_maca_boa * venda)) - custo_total;
+        let lucro_final = lucro_potencial - prejuizo_total;
         // Percentual do lucro real com lucro potencial
-        let percentual_lucro = (lucro_final / lucro_potencial) * 100;
+        let percentual_lucro = 100 - ((lucro_final / lucro_potencial) * 100);
 
         div_resul.innerHTML = `<strong>No melhor dos casos...</strong><br><br>
             <i>Cerca de 8% de descarte, 10% perda qualitativa e 15% desconto médio</i><br><br>
@@ -71,7 +71,7 @@
             Prejuízo gerado pela perda de qualidade das maçãs: <strong>R$${prejuizo_maca_ruim.toFixed(2)}</strong> <br><br>
             Prejuízo total: <strong>R$${prejuizo_total.toFixed(2)}</strong> <br><br>
             Lucro final: <strong>R$${lucro_final.toFixed(2)}</strong> <br><br>
-            Você atingiu <strong>${percentual_lucro.toFixed(2)}%</strong> do lucro potencial.<br><br><br><br>`;
+            Redução do lucro: <strong>${percentual_lucro.toFixed(2)}%</strong><br><br><br><br>`;
 
         // Agora no pior dos casos
 
@@ -94,11 +94,11 @@
         prejuizo_maca_ruim = qtd_perda_quali * prejuizo_desconto;
     
         // Calculando prejuizo total
-        prejuizo_total = prejuizo_maca_ruim + venda_maca_ruim;
+        prejuizo_total = prejuizo_descarte + prejuizo_maca_ruim;
         // Calculando lucro real que ele vai obter
-        lucro_final = (venda_maca_ruim + (qtd_maca_boa * venda)) - custo_total;
+        lucro_final = lucro_potencial - prejuizo_total;
         // Percentual do lucro real com lucro potencial
-        percentual_lucro = (lucro_final / lucro_potencial) * 100;
+        percentual_lucro = 100 - ((lucro_final / lucro_potencial) * 100);
 
         div_resul.innerHTML += `<strong>No pior dos casos...</strong><br><br>
             <i>Cerca de 15% de descarte, 20% perda qualitativa e 25% desconto médio</i><br><br>
@@ -106,6 +106,6 @@
             Prejuízo gerado pela perda de qualidade das maçãs: <strong>R$${prejuizo_maca_ruim.toFixed(2)}</strong> <br><br>
             Prejuízo total: <strong>R$${prejuizo_total.toFixed(2)}</strong> <br><br>
             Lucro final: <strong>R$${lucro_final.toFixed(2)}</strong> <br><br>
-            Você atingiu <strong>${percentual_lucro.toFixed(2)}%</strong> do lucro potencial.`;
+            Redução do lucro: <strong>${percentual_lucro.toFixed(2)}%</strong>`;
     }
 </script>
