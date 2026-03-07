@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Calculadora Financeira</h1>
+    <p><i>Considerando armazenamento refrigerado convencional (0–4°C, 90–95% UR, sem controle de etileno).</i></p>
+    <div style="display: flex; gap: 50px">
+        <div>
+            <p>Quantos Kg de maçã serão armazenados?</p>
+            <input type="text" id="ipt_kg">
+        </div>
+
+        <div>
+            <p>Quanto custou por quilo? </p>
+            <input type="text" id="ipt_custo">
+        </div>
+    </div>
+        <p>Por quanto planeja vender por quilo?</p>
+        <input type="text" id="ipt_venda">
+        <p>Qual o cenário deseja simular?</p>
+        <p>1 - Cenário Conservador (8% de descarte, 10% perda qualitativa e 15% desconto médio)</p>
+        <p>2 - Cenário Médio (12% de descarte, 15% perda qualitativa e 20% desconto médio)</p>
+        <p>3 - Cenário Crítico (15% de descarte, 20% perda qualitativa e 25% desconto médio)</p>
+        <input type="text" id="ipt_cenario">
+    <br><br>
+    <button onclick="calcular()">Calcular</button><br><br>
+    <div id="div_resul"></div>
+</body>
+</html>
+<script>
+    function calcular(){
+        let qtd_maca_inicial = Number(ipt_kg.value);
+        let qtd_maca_atual = qtd_maca_inicial;
+        let custo = Number(ipt_custo.value);
+        let venda = Number(ipt_venda.value);
+        let cenario = Number(ipt_cenario.value);
+        let lucro_esperado = qtd_maca_inicial * (venda - custo);
+        let lucro_real = 0;
+        let dif_lucro = 0
+
+        let qtd_descartado = 0;
+        let valor_descartado = 0;
+
+        let qtd_perda_quali = 0;
+        let desconto = 0;
+        let valor_desconto = 0;
+        
+        let desconto_perdido = 0;
+        let valor_desconto_perdido = 0;
+
+        let valor_total_perdido = 0;
+
+            // cenario conservador: 8% de descarte, 10% perda qualitativa e 15% desconto médio
+            // cenario conservador: 12% de descarte, 15% perda qualitativa e 20% desconto médio
+            // cenario conservador: 15% de descarte, 20% perda qualitativa e 25% desconto médio
+            // mostrar valor total perdido, prejuízo, perdas separadas
+
+
+            // Isso representa 10,76% do lucro esperado. Isso representa uma redução de X% na margem. Redução percentual do lucro: prejuizo / lucro
+        if (cenario == 1){  
+            div_resul.innerHTML = `Simulação imaginando cenário conservador em 6 meses. <br><br>`;
+            qtd_descartado = qtd_maca_atual * 0.08;
+            qtd_maca_atual -= qtd_descartado;
+            
+            valor_descartado = qtd_descartado * custo;
+            
+            qtd_perda_quali = qtd_maca_atual * 0.1;
+            qtd_maca_atual -= qtd_perda_quali;
+            desconto = venda - (venda * 0.15);
+            desconto_perdido = (venda * 0.15);
+            valor_desconto_perdido = qtd_perda_quali * desconto_perdido;
+            valor_desconto = qtd_perda_quali * desconto; 
+
+            valor_total_perdido = valor_descartado + valor_desconto_perdido;
+
+            lucro_real = ((qtd_maca_atual * venda) + valor_desconto) - (qtd_maca_inicial * custo);
+
+            dif_lucro = lucro_esperado - lucro_real;
+        } else if (cenario == 2) {
+                        div_resul.innerHTML = `Simulação imaginando cenário médio em 6 meses. <br><br>`;
+            qtd_descartado = qtd_maca_atual * 0.12;
+            qtd_maca_atual -= qtd_descartado;
+            
+            valor_descartado = qtd_descartado * custo;
+            
+            qtd_perda_quali = qtd_maca_atual * 0.15;
+            qtd_maca_atual -= qtd_perda_quali;
+            desconto = venda - (venda * 0.2);
+            desconto_perdido = (venda * 0.2);
+            valor_desconto_perdido = qtd_perda_quali * desconto_perdido;
+            valor_desconto = qtd_perda_quali * desconto; 
+
+            valor_total_perdido = valor_descartado + valor_desconto_perdido;
+
+            lucro_real = ((qtd_maca_atual * venda) + valor_desconto) - (qtd_maca_inicial * custo);
+
+            dif_lucro = lucro_esperado - lucro_real;
+        } else if (cenario == 3) {
+            div_resul.innerHTML = `Simulação imaginando cenário crítico em 6 meses. <br><br>`;
+            qtd_descartado = qtd_maca_atual * 0.15;
+            qtd_maca_atual -= qtd_descartado;
+            
+            valor_descartado = qtd_descartado * custo;
+            
+            qtd_perda_quali = qtd_maca_atual * 0.2;
+            qtd_maca_atual -= qtd_perda_quali;
+            desconto = venda - (venda * 0.25);
+            desconto_perdido = (venda * 0.25);
+            valor_desconto_perdido = qtd_perda_quali * desconto_perdido;
+            valor_desconto = qtd_perda_quali * desconto; 
+
+            valor_total_perdido = valor_descartado + valor_desconto_perdido;
+
+            lucro_real = ((qtd_maca_atual * venda) + valor_desconto) - (qtd_maca_inicial * custo);
+
+            dif_lucro = lucro_esperado - lucro_real;
+        } else{
+            alert('Insira um cénario válido.');
+        }
+
+        div_resul.innerHTML += `Prejuízo gerado pelo descarte de maçã: R$${valor_descartado.toFixed(2)}, <br><br>
+        Prejuízo gerado pela perda de qualidade das maçãs: R$${valor_desconto_perdido.toFixed(2)}, <br><br>
+        Prejuízo total: R$${valor_total_perdido.toFixed(2)}, <br><br>
+        Lucro esperado: R$${lucro_esperado.toFixed(2)},  <br><br>
+        Lucro real: R$${lucro_real.toFixed(2)}, <br><br>
+        Diferença entre lucros: R$${dif_lucro.toFixed(2)}
+        `;
+    }
+</script>
