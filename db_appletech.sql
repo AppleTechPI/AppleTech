@@ -8,7 +8,6 @@ nome	varchar(50) not null,
 cnpj	char(14) not null unique,
 cep		char(08) not null
 );
-
 insert into empresa(nome, cnpj, cep)
 values('Carrefour', '12345678000101', '01310100'),
 ('Extra ', '98765432000111', '20040002'),
@@ -28,7 +27,6 @@ create table cliente (
     situacao		varchar(10) not null default 'Ativo',
     constraint ck_cliente check(situacao in ('Ativo', 'Inativo'))
 );
-
 insert into cliente (nome, email, telefone, id_empresa) 
 values
 ('Carlos Alberto Silva', 'carlos.silva@email.com', '11988887777', 1),
@@ -66,7 +64,6 @@ data_instalacao		datetime not null,
 situacao	varchar(10) not null default 'Ativo'
 constraint ck_sensor check(situacao in ('Ativo', 'Inativo'))
 );
-
 insert into sensor (id_cliente, modelo, num_serie, local_instalacao, data_instalacao, situacao)
 values(1, 'F-900 Ethylene Analyzer', 'SN-2024-TG01', 'Armazem 1', '2024-01-15 08:30:00', 'Ativo'),
 (1, 'F-900 Ethylene Analyzer', 'SN-2024-FO02', 'Armazem 1', '2024-02-10 10:00:00', 'Intivo'),
@@ -81,27 +78,34 @@ create index ix_sensor on sensor(num_serie, local_instalacao);
 create table leitor (
 id	int primary key auto_increment,
 id_sensor int not null,
-ppb	int not null,
+ppb	int,
 data_hora datetime default current_timestamp
 );
-
 insert into leitor (id_sensor, ppb, data_hora) 
-values (1, 3, '2024-05-10 10:00:00'),
-(2, 6, '2024-05-10 10:01:00'),
-(3, 10, '2024-05-10 10:03:00'), 
-(1, 5, '2024-05-10 10:05:00'),
-(2, 8, '2024-05-10 10:06:00'),
-(3, 12, '2024-05-10 10:08:00'),
+values (1, 9, '2024-05-10 10:00:00'),
+(2, 9, '2024-05-10 10:01:00'),
+(4, null, '2024-05-10 10:02:00'),
+(3, 90, '2024-05-10 10:03:00'), 
+(1, 8, '2024-05-10 10:05:00'),
+(2, 11, '2024-05-10 10:06:00'),
+(4, null, '2024-05-10 10:07:00'),
+(3, 110, '2024-05-10 10:08:00'),
 (1, 7, '2024-05-10 10:10:00'),
-(2, 7, '2024-05-10 10:11:00'),
-(3, 15, '2024-05-10 10:13:00'), 
+(2, 13, '2024-05-10 10:11:00'),
+(4, null, '2024-05-10 10:12:00'),
+(3, 115, '2024-05-10 10:13:00'), 
 (1, 6, '2024-05-10 10:15:00'),
-(2, 9, '2024-05-10 10:16:00'),
-(3, 19, '2024-05-10 10:18:00'),
+(2, 11, '2024-05-10 10:16:00'),
+(4, null, '2024-05-10 10:17:00'),
+(3, 97, '2024-05-10 10:18:00'),
 (1, 7, '2024-05-10 10:20:00'),
-(3, 7, '2024-05-10 10:23:00'), 
-(1, 4, '2024-05-10 10:25:00'),
-(3, 22, '2024-05-10 10:28:00'); 
+(2, 9, '2024-05-10 10:21:00'),
+(4, null, '2024-05-10 10:22:00'),
+(3, 101, '2024-05-10 10:23:00'), 
+(1, 9, '2024-05-10 10:25:00'),
+(2, 10, '2024-05-10 10:26:00'),
+(4, null, '2024-05-10 10:27:00'),
+(3, 108, '2024-05-10 10:28:00'); 
 
 create index ix_leitor on leitor(valor, data_hora);
 
@@ -124,8 +128,9 @@ where id_cliente between 2 and 3;
 select*from leitor;
 select id_sensor, data_hora, ppb,
 case
-	when ppb <= 5 then "Ideal "
-	when ppb <= 20 then "Bom "
+	when ppb <= 10 then "Ideal "
+	when ppb <= 100 then "Bom "
+    when ppb is null then "Falha"
 	else "Arriscado "
 end as 'Nivel de Etileno'
 from leitor
